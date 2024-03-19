@@ -40,3 +40,9 @@
 .App {
   background-color: #F1dfb4;
 }
+.InputAndOutput {
+  display: flex; /* Using flexbox */
+}
+.InputPanel {
+  width: 50%;
+}

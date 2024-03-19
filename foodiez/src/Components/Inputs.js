@@ -1,18 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+function Inputs() {
   return (
     <div className="InputPanel">
       <div className="InputLabel">
-        Ingredients you want:
+        <h2>Ingredients you want:</h2>
       </div>
       <div className="InputLabel">
-        Ingredients you can't have:
+        <h2>Ingredients you can't have:</h2>
       </div>
 
     </div>
   );
 }
 
-export default App;
+export default Inputs;
