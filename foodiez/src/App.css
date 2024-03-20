@@ -77,14 +77,15 @@ h2 {
 }
 
 .InputLabel {
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 .input {
-  width: 250px;
+  width: 200px;
   height: 25px;
   font-size: 19px;
-  margin: 3px;
+  margin: 4px;
+  border: 1px solid rgb(68, 68, 68); /* Remove border */
 }
 
 .InputSliders {
@@ -94,15 +95,34 @@ h2 {
 
 .InputSection1, .InputSection2 {
   margin-bottom: 20px;
+  position: relative;
 }
 
 .removeButton {
-  width: 50px; /* Set the width of the button */
-  height: 50px; /* Set the height of the button */
+  width: 25px; /* Set the width of the button */
+  height: 25px; /* Set the height of the button */
   border-radius: 50%; /* Make the button circular */
-  background-color: #4CAF50; /* Green background color */
-  color: white; /* Text color */
-  border: none; /* Remove border */
+  background-color: white ; /* Green background color */
+  border: 1px solid rgb(68, 68, 68); 
   cursor: pointer; /* Change cursor on hover */
-  outline: none; /* Remove outline on focus */
+  outline: none; /* Remove outline on focus */ 
+  padding: 0px;
+
+}
+
+.removeImage {
+  width: 16px;
+  height: 16px;
+  display: block; /* Treat the image as a block-level element */
+  margin: auto; /* Horizontally center the image */
+}
+
+.getRecipes {
+  bottom: 50px;
+  margin-left: 60px;
+  padding: 10px;
+  border-radius: 30px;
+  font-size: 20px;
+  background-color: white;
+  border: 1px solid rgb(68, 68, 68); /* Remove border */
 }

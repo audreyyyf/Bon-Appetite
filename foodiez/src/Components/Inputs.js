@@ -1,6 +1,10 @@
 
 import React, { useState } from 'react';
-import '../App.css'; // Import the CSS file
+import remove from '../Images/remove.png';
+import add from '../Images/add.png'
+
+
+
 
 function Inputs() {
   const [inputs1, setInputs1] = useState(['']);
@@ -53,7 +57,9 @@ function Inputs() {
                 value={input}
                 onChange={event => handleChange1(index, event)}
               />
-              <button className="removeButton" onClick={() => removeInput1(index)}>Remove</button>
+              <button className="removeButton" onClick={() => removeInput1(index)}>
+                <img className="removeImage" src={remove} alt="Remove Button" />
+              </button>
             </div>
           ))}
           <button  onClick={addInput1}>Add Input</button>
@@ -71,10 +77,12 @@ function Inputs() {
                 value={input}
                 onChange={event => handleChange2(index, event)}
               />
-              <button onClick={() => removeInput2(index)}>Remove</button>
+              <button className="removeButton" onClick={() => removeInput2(index)}>
+                <img className="removeImage" src={remove} alt="Remove Button" />
+              </button>
             </div>
           ))}
-          <button className="removeButton" onClick={addInput2}>Add Input</button>
+          <button onClick={addInput2}>Add Input</button>
         </div>
       </div>
       <div className="InputLabel">
@@ -83,6 +91,9 @@ function Inputs() {
       <div class="InputSliders">
         <input type="range" min="1" max="100"  class="slider" id="slider1" style={{ backgroundColor: 'black', border: '1px solid #4CAF50' }} />
         <input type="range" min="1" max="100"  class="slider" id="slider2" style={{ backgroundColor: '#4CAF50', border: '1px solid #4CAF50' }} />
+      </div>
+      <div>
+        <button className="getRecipes"> Get Recipes! </button>
       </div>
 
     </div>
