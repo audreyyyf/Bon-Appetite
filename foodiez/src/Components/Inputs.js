@@ -53,7 +53,7 @@ function Inputs() {
                 value={input}
                 onChange={event => handleChange1(index, event)}
               />
-              <button onClick={() => removeInput1(index)}>Remove</button>
+              <button className="removeButton" onClick={() => removeInput1(index)}>Remove</button>
             </div>
           ))}
           <button  onClick={addInput1}>Add Input</button>
@@ -74,11 +74,11 @@ function Inputs() {
               <button onClick={() => removeInput2(index)}>Remove</button>
             </div>
           ))}
-          <button  onClick={addInput2}>Add Input</button>
+          <button className="removeButton" onClick={addInput2}>Add Input</button>
         </div>
-        <div className="InputLabel">
+      </div>
+      <div className="InputLabel">
             <h2> How much time you have: </h2>
-        </div>
       </div>
       <div class="InputSliders">
         <input type="range" min="1" max="100"  class="slider" id="slider1" style={{ backgroundColor: 'black', border: '1px solid #4CAF50' }} />
