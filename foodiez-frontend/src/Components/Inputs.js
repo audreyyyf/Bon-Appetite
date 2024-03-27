@@ -47,6 +47,39 @@ function Inputs() {
     }
   };
 
+  
+  const handleGetRecipes = () => {
+    const inputData = {
+      main: 'beef', // You can replace this with your actual input data
+      want: inputs1,
+      dontWant: inputs2,
+      time_limit: 100000, // Example time limit
+    };
+
+    fetch('/get-recipes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(inputData),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      // Handle the response data (e.g., display recipes to the user)
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('There was a problem with your fetch operation:', error);
+    });
+  };
+
+
+
   return (
     <div className="InputPanel">
       <div className="InputSection1">
@@ -107,7 +140,7 @@ function Inputs() {
       </div>
 
       <div>
-        <button className="getRecipes"> Get Recipes! </button>
+        <button className="getRecipes" onClick={handleGetRecipes}>Get Recipes!</button>
       </div>
     </div>
   );
