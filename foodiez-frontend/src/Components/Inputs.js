@@ -1,10 +1,6 @@
-
 import React, { useState } from 'react';
 import remove from '../Images/remove.png';
-import add from '../Images/add.png'
-
-
-
+import add from '../Images/add.png';
 
 function Inputs() {
   const [inputs1, setInputs1] = useState(['']);
@@ -16,13 +12,17 @@ function Inputs() {
   };
 
   const addInput1 = () => {
-    setInputs1([...inputs1, '']);
+    if (inputs1.length < 2) {
+      setInputs1([...inputs1, '']);
+    }
   };
 
   const removeInput1 = index => {
-    const newInputs = [...inputs1];
-    newInputs.splice(index, 1);
-    setInputs1(newInputs);
+    if (inputs1.length > 1) {
+      const newInputs = [...inputs1];
+      newInputs.splice(index, 1);
+      setInputs1(newInputs);
+    }
   };
 
   const [inputs2, setInputs2] = useState(['']);
@@ -34,20 +34,34 @@ function Inputs() {
   };
 
   const addInput2 = () => {
-    setInputs2([...inputs2, '']);
+    if (inputs2.length < 3) {
+      setInputs2([...inputs2, '']);
+    }
   };
 
   const removeInput2 = index => {
-    const newInputs = [...inputs2];
-    newInputs.splice(index, 1);
-    setInputs2(newInputs);
+    if (inputs2.length > 1) {
+      const newInputs = [...inputs2];
+      newInputs.splice(index, 1);
+      setInputs2(newInputs);
+    }
   };
 
   return (
     <div className="InputPanel">
       <div className="InputSection1">
         <div className="InputLabel">
-          <h2>Ingredients you want:</h2>
+          <h2>One main ingredient you want:</h2>
+        </div>
+        <div className="InputBoxes">
+              <input className="input"
+                type="text"
+              />
+        </div>
+      </div>
+      <div className="InputSection2">
+        <div className="InputLabel">
+          <h2>Up to two other ingredients you want:</h2>
         </div>
         <div className="InputBoxes">
           {inputs1.map((input, index) => (
@@ -62,12 +76,12 @@ function Inputs() {
               </button>
             </div>
           ))}
-          <button  onClick={addInput1}>Add Input</button>
+          {inputs1.length < 2 && <button onClick={addInput1}>Add Input</button>}
         </div>
       </div>
-      <div className="InputSection2">
+      <div className="InputSection3">
         <div className="InputLabel">
-          <h2>Ingredients you can't have:</h2>
+          <h2>Up to three ingredients you can't have:</h2>
         </div>
         <div className="InputBoxes">
           {inputs2.map((input, index) => (
@@ -82,20 +96,19 @@ function Inputs() {
               </button>
             </div>
           ))}
-          <button onClick={addInput2}>Add Input</button>
+          {inputs2.length < 3 && <button onClick={addInput2}>Add Input</button>}
         </div>
       </div>
       <div className="InputLabel">
             <h2> How much time you have: </h2>
       </div>
-      <div class="InputSliders">
-        <input type="range" min="1" max="100"  class="slider" id="slider1" style={{ backgroundColor: 'black', border: '1px solid #4CAF50' }} />
-        <input type="range" min="1" max="100"  class="slider" id="slider2" style={{ backgroundColor: '#4CAF50', border: '1px solid #4CAF50' }} />
+      <div className="InputSliders">
+        <input type="range" min="1" max="100" className="slider" id="slider1" style={{ backgroundColor: 'black', border: '1px solid #4CAF50', WebkitAppearance: 'none', appearance: 'none' }}/>
       </div>
+
       <div>
         <button className="getRecipes"> Get Recipes! </button>
       </div>
-
     </div>
   );
 }
