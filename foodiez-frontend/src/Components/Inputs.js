@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import remove from '../Images/remove.png';
 import add from '../Images/add.png';
 
-function Inputs() {
+function Inputs({ onDataReceived }) {
+
+
   const [main, setMain] = useState('');
   const [inputs1, setInputs1] = useState(['']);
   const [inputs2, setInputs2] = useState(['']);
@@ -75,6 +77,8 @@ function Inputs() {
     .then(data => {
       // Handle the response data (e.g., display recipes to the user)
       console.log(data);
+      const recipesArray = data.recipes;
+      onDataReceived(recipesArray);
     })
     .catch(error => {
       console.error('There was a problem with your fetch operation:', error);

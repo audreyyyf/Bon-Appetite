@@ -4,11 +4,16 @@ import Inputs from './Inputs.js'
 import Outputs from './Outputs.js';
 
 function InputAndOutput() {
-  const [recipeLinks, setRecipeLinks] = useState([]);
+  const [recipes, setRecipes] = useState([]);
+
+  const handleRecipesChange = (newRecipes) => {
+    setRecipes(newRecipes);
+  };
+
   return (
     <div className="InputAndOutput">
-      <Inputs />
-      <Outputs links={recipeLinks} />
+      <Inputs onDataReceived={handleRecipesChange} />
+      <Outputs recipes={recipes} />
     </div>
   );
 }
