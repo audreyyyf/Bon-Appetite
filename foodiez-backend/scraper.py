@@ -1,20 +1,40 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from bs4 import BeautifulSoup as bs
 from recipe_scrapers import scrape_me
+from flask_cors import CORS
+
+
 
 app = Flask(__name__)
+
+CORS(app, origins=['http://localhost:3000'])
 
 @app.route('/')
 def hello():
     return 'Hello, World!'
 
-@app.route('/get-recipes')
+@app.route('/get-recipes',  methods=['POST'])
 def get_recipes_route():
     # Define inputs
-    main = 'beef'  # Example main ingredient
-    want = []  # Example list of ingredients the user wants
-    dontWant = []  # Example list of ingredients the user doesn't want
-    time_limit = 100000  # Example time limit
+    # Extract inputs from the request
+    data = request.get_json()
+    main = data.get('main', '')  # Example main ingredient
+    want = data.get('want', [])   # Example list of ingredients the user wants
+    dontWant = data.get('dontWant', [])  # Example list of ingredients the user doesn't want
+    time_limit = data.get('time_limit', 100000)  # Example time limit
+
+    # Print inputs for testing
+    print("Main ingredient:", main)
+    print("Want:", want)
+    print("Don't want:", dontWant)
+    print("Time limit:", time_limit)
+
+    
+     # Print inputs for testing
+    print("Main ingredient:", main)
+    print("Want:", want)
+    print("Don't want:", dontWant)
+    print("Time limit:", time_limit)
 
     # Call the web scraper function
     recipes = get_recipes(main, want, dontWant, time_limit)

@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+
 import Inputs from './Inputs.js'
 import Outputs from './Outputs.js';
 

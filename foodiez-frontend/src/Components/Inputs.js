@@ -3,7 +3,13 @@ import remove from '../Images/remove.png';
 import add from '../Images/add.png';
 
 function Inputs() {
+  const [main, setMain] = useState('');
   const [inputs1, setInputs1] = useState(['']);
+  const [inputs2, setInputs2] = useState(['']);
+
+  const handleChangeMain = event => {
+    setMain(event.target.value);
+  };
 
   const handleChange1 = (index, event) => {
     const newInputs = [...inputs1];
@@ -25,8 +31,6 @@ function Inputs() {
     }
   };
 
-  const [inputs2, setInputs2] = useState(['']);
-
   const handleChange2 = (index, event) => {
     const newInputs = [...inputs2];
     newInputs[index] = event.target.value;
@@ -47,16 +51,15 @@ function Inputs() {
     }
   };
 
-  
   const handleGetRecipes = () => {
     const inputData = {
-      main: 'beef', // You can replace this with your actual input data
+      main: main,
       want: inputs1,
       dontWant: inputs2,
       time_limit: 100000, // Example time limit
     };
 
-    fetch('/get-recipes', {
+    fetch('http://127.0.0.1:5000/get-recipes', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -78,8 +81,6 @@ function Inputs() {
     });
   };
 
-
-
   return (
     <div className="InputPanel">
       <div className="InputSection1">
@@ -87,9 +88,12 @@ function Inputs() {
           <h2>One main ingredient you want:</h2>
         </div>
         <div className="InputBoxes">
-              <input className="input"
-                type="text"
-              />
+          <input
+            className="input"
+            type="text"
+            value={main}
+            onChange={handleChangeMain}
+          />
         </div>
       </div>
       <div className="InputSection2">
@@ -99,7 +103,8 @@ function Inputs() {
         <div className="InputBoxes">
           {inputs1.map((input, index) => (
             <div key={index}>
-              <input className="input"
+              <input
+                className="input"
                 type="text"
                 value={input}
                 onChange={event => handleChange1(index, event)}
@@ -119,7 +124,8 @@ function Inputs() {
         <div className="InputBoxes">
           {inputs2.map((input, index) => (
             <div key={index}>
-              <input className="input"
+              <input
+                className="input"
                 type="text"
                 value={input}
                 onChange={event => handleChange2(index, event)}
@@ -133,7 +139,7 @@ function Inputs() {
         </div>
       </div>
       <div className="InputLabel">
-            <h2> How much time you have: </h2>
+        <h2> How much time you have: </h2>
       </div>
       <div className="InputSliders">
         <input type="range" min="1" max="100" className="slider" id="slider1" style={{ backgroundColor: 'black', border: '1px solid #4CAF50', WebkitAppearance: 'none', appearance: 'none' }}/>
