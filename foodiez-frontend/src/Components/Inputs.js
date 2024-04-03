@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import remove from '../Images/remove.png';
 import add from '../Images/add.png';
 
-function Inputs({ onDataReceived }) {
+function Inputs({ onDataReceived, setLoading }) {
 
 
   const [main, setMain] = useState('');
@@ -54,6 +54,8 @@ function Inputs({ onDataReceived }) {
   };
 
   const handleGetRecipes = () => {
+    setLoading(true); // Set loading to true when starting the fetch
+
     const inputData = {
       main: main,
       want: inputs1,
@@ -79,9 +81,11 @@ function Inputs({ onDataReceived }) {
       console.log(data);
       const recipesArray = data.recipes;
       onDataReceived(recipesArray);
+      setLoading(false); // Set loading to false when data is received
     })
     .catch(error => {
       console.error('There was a problem with your fetch operation:', error);
+      setLoading(false); 
     });
   };
 

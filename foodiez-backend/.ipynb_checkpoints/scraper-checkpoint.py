@@ -1,8 +1,6 @@
 from flask import Flask
-from bs4 import BeautifulSoup as
+from bs4 import BeautifulSoup as bs
 import requests
-import pandas as pd
-import numpy as np
 from recipe_scrapers import scrape_me
 
 app = Flask(__name__)

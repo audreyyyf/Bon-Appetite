@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import Logo from '../Images/Logo.png'; 
 
+function Outputs({ recipes, loading }) {
 
-function Outputs({ recipes }) {
   if (!Array.isArray(recipes)) {
     console.log(recipes);
     console.log("not an array");
@@ -12,6 +13,11 @@ function Outputs({ recipes }) {
       <div className="OutputPanel">
         <div>
           <h2>Recipe Links:</h2>
+          {loading && (
+          <div className="loading-image">
+            <img src={Logo} alt="Loading..." />
+          </div>
+        )}
           <ul>
             {recipes.map((recipe, index) => (
               <li key={index}>

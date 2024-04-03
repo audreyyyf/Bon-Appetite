@@ -126,3 +126,19 @@ h2 {
   background-color: white;
   border: 1px solid rgb(68, 68, 68); /* Remove border */
 }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-image {
+  animation: spin 1s linear infinite;
+  width: 50px; /* Adjust the width as needed */
+  height: 50px; /* Adjust the height as needed */
+  transform-origin: center;
+}
