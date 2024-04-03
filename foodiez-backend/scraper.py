@@ -38,8 +38,9 @@ def get_recipes_route():
 
     # Call the web scraper function
     recipes = get_recipes(main, want, dontWant, time_limit)
+    recipe1 = extract_recipe_info(results[0])
 
-    return jsonify({'recipes': recipes})
+    return jsonify({'recipes': recipes} and recipe1)
 
 def get_recipes(main, want, dontWant, time_limit):
     scraper = scrape_me('https://www.allrecipes.com/search?q=' + main)
@@ -70,3 +71,12 @@ def check_ingredient_criteria(ingredients, want, dontWant):
 if __name__ == '__main__':
     print("Backend script started")
     app.run(debug=True)
+
+# Function to extract info from recipes
+def extract_recipe_info(recipe):
+    website = scrape_me(recipe).host()
+    recipe_name = scrape_me(recipe).title()
+    total_time = scrape_me(recipe).total_time()
+    servings = scrape_me(recipe).yields()
+    image = scrape_me(recipe).image()
+    return {'website': website, 'recipe_name': recipe_name, 'total_time': total_time, 'servings': servings, 'image': image}
