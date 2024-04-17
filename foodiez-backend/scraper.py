@@ -37,12 +37,12 @@ def get_recipes_route():
     print("Time limit:", time_limit)
 
     # Call the web scraper function
-    recipes = get_recipes(main, want, dontWant, time_limit)
+    recipes = get_allrecipes(main, want, dontWant, time_limit)
     recipe1 = extract_recipe_info(results[0])
 
     return jsonify({'recipes': recipes} and recipe1)
 
-def get_recipes(main, want, dontWant, time_limit):
+def get_allrecipes(main, want, dontWant, time_limit):
     scraper = scrape_me('https://www.allrecipes.com/search?q=' + main)
     atags = scraper.links()
     unique_key = 'data-doc-id'
@@ -80,3 +80,46 @@ def extract_recipe_info(recipe):
     servings = scrape_me(recipe).yields()
     image = scrape_me(recipe).image()
     return {'website': website, 'recipe_name': recipe_name, 'total_time': total_time, 'servings': servings, 'image': image}
+
+
+def get_food52:
+    # Food 52 Scrapper 
+
+    main = "pasta"
+    want = ['spinach']
+    dontWant = ['olives'] 
+    time_limit = 60
+
+    scraper = scrape_me('https://food52.com/recipes/search?q='+main)
+
+    #retrieves only the <a> tags from the page
+    atags = scraper.links()
+
+    # key to extract recipe dictionaries
+    unique_key = 'collectable__img-link'
+        
+    # Extract dictionaries that only contain the recipe links
+    recipes = [r for r in atags if unique_key in r.get('class', [])]
+
+    # key to extract recipe links from dictionaries 
+    link_key = 'href'
+        
+    # extract just the links from the dictionaries
+    links = [k[link_key] for k in recipes]
+
+    # append the base url to each recipe link
+    base_url = 'https://food52.com'
+    links = [base_url + link for link in links]
+
+    # Array to store recipe links that meet the criteria
+    link_matches = []
+
+    # Iterate over recipe links that meet time and ingredient criteria
+    for link in links:
+        ingredients = scrape_me(link).ingredients()
+        time = scrape_me(link).total_time()
+        if check_ingredient_criteria(ingredients, want, dontWant) and (time <= time_limit):
+            link_matches.append(link)
+            
+
+    link_matches
