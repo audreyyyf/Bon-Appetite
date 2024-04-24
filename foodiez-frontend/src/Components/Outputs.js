@@ -13,6 +13,8 @@ function Outputs({ recipes, loading }) {
     return null; // or render a loading indicator or placeholder
   }
 
+
+
  
   if (loading) {
     return (
@@ -31,66 +33,67 @@ function Outputs({ recipes, loading }) {
   console.log("food52Array", food52Array);
   console.log("delishArray", delishArray);
   console.log("myRecipesArray", myRecipesArray);
-
+  const allEmpty = allrecipesArray.length === 0 && food52Array.length === 0 && delishArray.length === 0 && myRecipesArray.length === 0;
   return (
     <div className="OutputPanel">
       <div>
         <h2>Recipe Links:</h2>
-        {loading && (
-          <div className="loading-image">
-            <img src={Logo} alt="Loading..." />
+        {allEmpty ? (
+          <p>Recipes will show up here</p>
+        ) : (
+          <div className="container">
+            <div className="row">
+              {allrecipesArray.length > 0 && (
+                <div className="col">
+                  <h3>AllRecipes</h3>
+                  <Carousel>
+                    {allrecipesArray.map((recipe, index) => (
+                      <Carousel.Item key={index}>
+                        <a href={recipe} target="_blank" rel="noopener noreferrer">{recipe}</a>
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
+                </div>
+              )}
+              {food52Array.length > 0 && (
+                <div className="col">
+                  <h3>Food52</h3>
+                  <Carousel>
+                    {food52Array.map((recipe, index) => (
+                      <Carousel.Item key={index}>
+                        <a href={recipe} target="_blank" rel="noopener noreferrer">{recipe}</a>
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
+                </div>
+              )}
+              {delishArray.length > 0 && (
+                <div className="col">
+                  <h3>Delish</h3>
+                  <Carousel>
+                    {delishArray.map((recipe, index) => (
+                      <Carousel.Item key={index}>
+                        <a href={recipe} target="_blank" rel="noopener noreferrer">{recipe}</a>
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
+                </div>
+              )}
+              {myRecipesArray.length > 0 && (
+                <div className="col">
+                  <h3>My Recipes</h3>
+                  <Carousel>
+                    {myRecipesArray.map((recipe, index) => (
+                      <Carousel.Item key={index}>
+                        <a href={recipe} target="_blank" rel="noopener noreferrer">{recipe}</a>
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
+                </div>
+              )}
+            </div>
           </div>
         )}
-        <div className="container">
-          <div className="row">
-            <div className="col">
-              <h3>AllRecipes</h3>
-              <Carousel >
-                {allrecipesArray.map((recipe, index) => (
-                  <Carousel.Item key={index}>
-                     <a href={recipe} target="_blank" rel="noopener noreferrer">{recipe}</a>
-                    
-                  </Carousel.Item>
-                ))}
-              </Carousel>
-            </div>
-            <div className="col">
-              <h3>Food52</h3>
-              <Carousel >
-                {food52Array.map((recipe, index) => (
-                  <Carousel.Item key={index}>
-                    <a href={recipe} target="_blank" rel="noopener noreferrer">{recipe}</a>
-                    
-                  </Carousel.Item>
-                ))}
-              </Carousel>
-            </div>
-            <div className="col">
-              <h3>Delish</h3>
-              <Carousel >
-                {delishArray.map((recipe, index) => (
-                  <Carousel.Item key={index}>
-                     <a href={recipe} target="_blank" rel="noopener noreferrer">{recipe}</a>
-                    
-                  </Carousel.Item>
-                ))}
-              </Carousel>
-            </div>
-            <div className="col">
-              <h3>My Recipes</h3>
-              <Carousel >
-                {myRecipesArray.map((recipe, index) => (
-                  <Carousel.Item key={index}>
-                     <a href={recipe} target="_blank" rel="noopener noreferrer">{recipe}</a>
-                    
-                  </Carousel.Item>
-                ))}
-              </Carousel>
-            </div>
-            
-           
-          </div>
-        </div>
       </div>
     </div>
   );

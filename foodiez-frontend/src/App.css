@@ -150,13 +150,21 @@ h2 {
   flex: 1;
 }
 
-  .carousel-item {
-    /* Adjust the width as needed */
-    display: inline-block; /* Display inline */
-    
-  }
+.carousel-item {
+  /* Adjust the width as needed */
+  display: inline-block; /* Display inline */
+  
+}
 
 .row {
   display: flex;
+}
+
+.carousel-item {
+  margin: 10px;
+
+}
+.carousel-indicators {
+  margin-top: 100px;
 }
 
