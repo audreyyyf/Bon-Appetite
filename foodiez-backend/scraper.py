@@ -33,29 +33,34 @@ def get_recipes_route():
     allrecipes_queue = Queue()
     food52_queue = Queue()
     delish_queue = Queue()
+    myRecipes_queue = Queue()
 
 
     # Create threads for each function
     thread_allrecipes = threading.Thread(target=get_allrecipes, args=(main, want, dontWant, time_limit, allrecipes_queue ))
     thread_food52 = threading.Thread(target=get_food52, args=(main, want, dontWant, time_limit, food52_queue))
     thread_delish = threading.Thread(target=get_delish, args=(main, want, dontWant, time_limit, delish_queue))
+    thread_myRecipes = threading.Thread(target=get_myRecipes, args=(main, want, dontWant, time_limit, myRecipes_queue))
 
     # Start threads
     thread_allrecipes.start()
     thread_food52.start()
     thread_delish.start()
+    thread_myRecipes.start()
 
     # Wait for threads to complete
     thread_allrecipes.join()
     thread_food52.join()
     thread_delish.join()
+    thread_myRecipes.join()
 
         # Get results from queues
     allrecipes_result = allrecipes_queue.get()
     food52_result = food52_queue.get()
     delish_result = delish_queue.get()
+    myRecipes_result = myRecipes_queue.get()
 
-    return jsonify(allrecipes_result=allrecipes_result, food52_result=food52_result, delish_result=delish_result)
+    return jsonify(allrecipes_result=allrecipes_result, food52_result=food52_result, delish_result=delish_result, myRecipes_result=myRecipes_result)
     #return jsonify({'allrecipes': allrecipes_result, 'food52': food52_result})
 
     
@@ -73,7 +78,7 @@ def get_allrecipes(main, want, dontWant, time_limit, result_queue):
     for link in links:
         ingredients = scrape_me(link).ingredients()
         time = scrape_me(link).total_time()
-        if check_ingredient_criteria(ingredients, want, dontWant) and (time <= time_limit):
+        if check_ingredient_criteria(ingredients, want, dontWant):
             link_matches.append(link)
 
     result_queue.put(link_matches)
@@ -94,16 +99,14 @@ def get_food52(main, want, dontWant, time_limit, result_queue):
     link_matches = []
     for link in links:
         ingredients = scrape_me(link).ingredients()
-        time = scrape_me(link).total_time()
+        
         if check_ingredient_criteria(ingredients, want, dontWant):
             link_matches.append(link)
 
     result_queue.put(link_matches)
     return
 
-# Delish Scrapper
-
-
+# Delish Scraper
 def get_delish(main, want, dontWant, time_limit, result_queue):
     scraper = scrape_me('https://www.delish.com/search/?q=' + main)
 
@@ -139,14 +142,54 @@ def get_delish(main, want, dontWant, time_limit, result_queue):
 
     result_queue.put(link_matches)
 
+# My Recipes Scrapper 
+def get_myRecipes(main, want, dontWant, time_limit, result_queue):
+    scraper = scrape_me('https://www.myrecipes.com/search?q=' + main)
+
+    #retrieves only the <a> tags from the page
+    atags = scraper.links()
+    atags
+
+    # key to extract recipe dictionaries
+    unique_key = 'tabindex'
+        
+    # Extract dictionaries that only contain the recipe links
+    recipes = [r for r in atags if unique_key in r]
+
+    # key to extract recipe links from dictionaries 
+    link_key = 'href'
+        
+    # extract just the links from the dictionaries
+    links = [k[link_key] for k in recipes]
+
+    # Array to store recipe links that meet the criteria
+    link_matches = []
+
+    for link in links:
+        ingredients = scrape_me(link).ingredients()
+        if check_ingredient_criteria(ingredients, want, dontWant):
+            link_matches.append(link)
+    result_queue.put(link_matches)
+    
+    
 
 def check_ingredient_criteria(ingredients, want, dontWant):
-    for ingredient in want:
-        if ingredient.lower() not in ''.join(ingredients).lower():
-            return False
-    for ingredient in dontWant:
-        if ingredient.lower() in ''.join(ingredients).lower():
-            return False
+     # Check if dontWant array is empty
+    if all(not item.strip() for item in dontWant):
+        # If dontWant is empty, only check against want array
+        for ingredient in want:
+            if ingredient.lower() not in ''.join(ingredients).lower():
+                return False
+        
+        
+    else:
+        # If dontWant is not empty, check against both want and dontWant arrays
+        for ingredient in want:
+            if ingredient.lower() not in ''.join(ingredients).lower():
+                return False
+        for ingredient in dontWant:
+            if ingredient.lower() in ''.join(ingredients).lower():
+                return False
     return True
 
 if __name__ == '__main__':

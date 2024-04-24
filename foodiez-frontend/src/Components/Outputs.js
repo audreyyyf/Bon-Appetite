@@ -13,11 +13,25 @@ function Outputs({ recipes, loading }) {
     return null; // or render a loading indicator or placeholder
   }
 
-  const { allrecipesArray, food52Array, delishArray } = recipes;
+ 
+  if (loading) {
+    return (
+      <div className="OutputPanel">
+        <div className="loading-image">
+          <img src={Logo} alt="Loading..." />
+        </div>
+      </div>
+    );
+  }
+
+
+  const { allrecipesArray, food52Array, delishArray, myRecipesArray } = recipes;
   
   console.log("allrecipesArray:", allrecipesArray);
   console.log("food52Array", food52Array);
-  console.log("delishArray", delishArray)
+  console.log("delishArray", delishArray);
+  console.log("myRecipesArray", myRecipesArray);
+
   return (
     <div className="OutputPanel">
       <div>
@@ -55,6 +69,17 @@ function Outputs({ recipes, loading }) {
               <h3>Delish</h3>
               <Carousel >
                 {delishArray.map((recipe, index) => (
+                  <Carousel.Item key={index}>
+                     <a href={recipe} target="_blank" rel="noopener noreferrer">{recipe}</a>
+                    
+                  </Carousel.Item>
+                ))}
+              </Carousel>
+            </div>
+            <div className="col">
+              <h3>My Recipes</h3>
+              <Carousel >
+                {myRecipesArray.map((recipe, index) => (
                   <Carousel.Item key={index}>
                      <a href={recipe} target="_blank" rel="noopener noreferrer">{recipe}</a>
                     

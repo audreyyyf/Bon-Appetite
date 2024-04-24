@@ -8,6 +8,7 @@ function Inputs({ onDataReceived, setLoading }) {
   const [main, setMain] = useState('');
   const [inputs1, setInputs1] = useState(['']);
   const [inputs2, setInputs2] = useState(['']);
+  const [timeLimit, setTimeLimit] = useState(100000); // Initial value of time limit
 
   const handleChangeMain = event => {
     setMain(event.target.value);
@@ -60,7 +61,7 @@ function Inputs({ onDataReceived, setLoading }) {
       main: main,
       want: inputs1,
       dontWant: inputs2,
-      time_limit: 100000, // Example time limit
+      time_limit: timeLimit // Example time limit
     };
 
     fetch('http://127.0.0.1:5000/get-recipes', {
@@ -82,7 +83,8 @@ function Inputs({ onDataReceived, setLoading }) {
       const allrecipesArray = data.allrecipes_result || []; // Access allrecipes_result
       const food52Array = data.food52_result || []; // Access food52_result
       const delishArray = data.delish_result || []; // Access delish_result
-      const recipesArray = { allrecipesArray, food52Array, delishArray }; // Combine into a single object
+      const myRecipesArray = data.myRecipes_result || []; //Access myRecipes_result
+      const recipesArray = { allrecipesArray, food52Array, delishArray, myRecipesArray }; // Combine into a single object
       onDataReceived(recipesArray);
       setLoading(false); // Set loading to false when data is received
     })
@@ -153,7 +155,10 @@ function Inputs({ onDataReceived, setLoading }) {
         <h2> How much time you have: </h2>
       </div>
       <div className="InputSliders">
-        <input type="range" min="1" max="100" className="slider" id="slider1" style={{ backgroundColor: 'black', border: '1px solid #4CAF50', WebkitAppearance: 'none', appearance: 'none' }}/>
+        <input type="range" min="1" max="1000" className="slider" id="slider1" style={{ backgroundColor: 'cream', border: '1px solid black', WebkitAppearance: 'none', appearance: 'none' }}
+        onChange={(e) => setTimeLimit(parseInt(e.target.value))} // Update timeLimit when slider value changes
+        />
+        <p>{timeLimit} minutes </p> 
       </div>
 
       <div>
