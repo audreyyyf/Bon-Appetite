@@ -4,11 +4,12 @@ import Inputs from './Inputs.js'
 import Outputs from './Outputs.js';
 
 function InputAndOutput() {
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState({ allrecipesArray: [], food52Array: [] });
   const [loading, setLoading] = useState(false);
 
   const handleRecipesChange = (newRecipes) => {
     setRecipes(newRecipes);
+    console.log('New recipes data:', newRecipes); // Log the received data
   };
 
 
