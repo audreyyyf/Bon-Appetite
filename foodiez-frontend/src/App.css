@@ -8,7 +8,9 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+.root {
+  background-color: #F1DFB4;
+}
 .App-header {
   background-color: #F1DFB4;
   min-height: 100vh;
@@ -140,3 +142,19 @@ h2 {
   animation: spin 3s linear infinite;
   transform-origin: center;
 }
+
+.col {
+
+  flex: 1;
+}
+
+  .carousel-item {
+    /* Adjust the width as needed */
+    display: inline-block; /* Display inline */
+    
+  }
+
+.row {
+  display: flex;
+}
+

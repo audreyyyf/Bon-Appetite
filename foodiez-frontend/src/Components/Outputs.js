@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Logo from '../Images/Logo.png'; 
-import Carousel from 'react-bootstrap/Carousel';
+import { Carousel } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function Outputs({ recipes, loading }) {
 
@@ -11,10 +13,11 @@ function Outputs({ recipes, loading }) {
     return null; // or render a loading indicator or placeholder
   }
 
-  const { allrecipesArray, food52Array } = recipes;
+  const { allrecipesArray, food52Array, delishArray } = recipes;
   
   console.log("allrecipesArray:", allrecipesArray);
   console.log("food52Array", food52Array);
+  console.log("delishArray", delishArray)
   return (
     <div className="OutputPanel">
       <div>
@@ -31,7 +34,7 @@ function Outputs({ recipes, loading }) {
               <Carousel >
                 {allrecipesArray.map((recipe, index) => (
                   <Carousel.Item key={index}>
-                    <a href={recipe} target="_blank" rel="noopener noreferrer">{recipe}</a>
+                     <a href={recipe} target="_blank" rel="noopener noreferrer">{recipe}</a>
                     
                   </Carousel.Item>
                 ))}
@@ -48,6 +51,19 @@ function Outputs({ recipes, loading }) {
                 ))}
               </Carousel>
             </div>
+            <div className="col">
+              <h3>Delish</h3>
+              <Carousel >
+                {delishArray.map((recipe, index) => (
+                  <Carousel.Item key={index}>
+                     <a href={recipe} target="_blank" rel="noopener noreferrer">{recipe}</a>
+                    
+                  </Carousel.Item>
+                ))}
+              </Carousel>
+            </div>
+            
+           
           </div>
         </div>
       </div>

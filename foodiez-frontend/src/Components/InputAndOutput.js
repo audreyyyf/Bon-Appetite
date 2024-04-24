@@ -4,7 +4,7 @@ import Inputs from './Inputs.js'
 import Outputs from './Outputs.js';
 
 function InputAndOutput() {
-  const [recipes, setRecipes] = useState({ allrecipesArray: [], food52Array: [] });
+  const [recipes, setRecipes] = useState({ allrecipesArray: [], food52Array: [], delishArray: [] });
   const [loading, setLoading] = useState(false);
 
   const handleRecipesChange = (newRecipes) => {

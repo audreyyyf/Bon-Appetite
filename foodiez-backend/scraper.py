@@ -32,25 +32,30 @@ def get_recipes_route():
     # Create queues for storing results
     allrecipes_queue = Queue()
     food52_queue = Queue()
+    delish_queue = Queue()
 
 
     # Create threads for each function
     thread_allrecipes = threading.Thread(target=get_allrecipes, args=(main, want, dontWant, time_limit, allrecipes_queue ))
     thread_food52 = threading.Thread(target=get_food52, args=(main, want, dontWant, time_limit, food52_queue))
+    thread_delish = threading.Thread(target=get_delish, args=(main, want, dontWant, time_limit, delish_queue))
 
     # Start threads
     thread_allrecipes.start()
     thread_food52.start()
+    thread_delish.start()
 
     # Wait for threads to complete
     thread_allrecipes.join()
     thread_food52.join()
+    thread_delish.join()
 
         # Get results from queues
     allrecipes_result = allrecipes_queue.get()
     food52_result = food52_queue.get()
+    delish_result = delish_queue.get()
 
-    return jsonify(allrecipes_result=allrecipes_result, food52_result=food52_result)
+    return jsonify(allrecipes_result=allrecipes_result, food52_result=food52_result, delish_result=delish_result)
     #return jsonify({'allrecipes': allrecipes_result, 'food52': food52_result})
 
     
@@ -95,6 +100,45 @@ def get_food52(main, want, dontWant, time_limit, result_queue):
 
     result_queue.put(link_matches)
     return
+
+# Delish Scrapper
+
+
+def get_delish(main, want, dontWant, time_limit, result_queue):
+    scraper = scrape_me('https://www.delish.com/search/?q=' + main)
+
+    #retrieves only the <a> tags from the page
+    atags = scraper.links()
+    atags
+
+    # key to extract recipe dictionaries
+    unique_key = 'data-vars-ga-outbound-link'
+        
+    # Extract dictionaries that only contain the recipe links
+    recipes = [r for r in atags if unique_key in r]
+        
+    # key to extract recipe links from dictionaries 
+    link_key = 'href'
+        
+    # extract just the links from the dictionaries
+    links = [k[link_key] for k in recipes]
+    links
+
+    # append the base url to each recipe link
+    base_url = 'https://www.delish.com/'
+    links = [base_url + link for link in links]
+
+    # Array to store recipe links that meet the criteria
+    link_matches = []
+
+    for link in links:
+        ingredients = scrape_me(link).ingredients()
+        time = scrape_me(link).total_time()
+        if check_ingredient_criteria(ingredients, want, dontWant) and (time <= time_limit):
+            link_matches.append(link)
+
+    result_queue.put(link_matches)
+
 
 def check_ingredient_criteria(ingredients, want, dontWant):
     for ingredient in want:

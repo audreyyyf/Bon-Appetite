@@ -81,7 +81,8 @@ function Inputs({ onDataReceived, setLoading }) {
       console.log(data);
       const allrecipesArray = data.allrecipes_result || []; // Access allrecipes_result
       const food52Array = data.food52_result || []; // Access food52_result
-      const recipesArray = { allrecipesArray, food52Array }; // Combine into a single object
+      const delishArray = data.delish_result || []; // Access delish_result
+      const recipesArray = { allrecipesArray, food52Array, delishArray }; // Combine into a single object
       onDataReceived(recipesArray);
       setLoading(false); // Set loading to false when data is received
     })
